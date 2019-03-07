@@ -12,7 +12,8 @@ const capitalizer = (req, res, next) => {
   }
   next();
 };
-server.use(helmet(), cors());
+server.use(helmet());
+server.use(cors());
 server.use(parser, capitalizer);
 server.use("/user", userRouter);
 server.use("/post", postRouter);
