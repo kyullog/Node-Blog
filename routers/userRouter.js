@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("../data/helpers/userDb");
+const { removeByUser } = require("../data/helpers/postDb");
 
 const userRouter = express.Router();
 
@@ -78,6 +79,10 @@ userRouter.put("/:id", async (req, res) => {
 userRouter.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
+    const findPosts = await db.getUserPosts(id);
+    if (findPosts) {
+      await removeByUser(id);
+    }
     const success = await db.remove(id);
     if (success) {
       res.status(200).json({ message: "User removed" });
